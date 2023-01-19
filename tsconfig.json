@@ -1,0 +1,9 @@
+{
+    "include": ["app/*.ts"],
+    "compilerOptions": {
+        "lib": ["ESNext"],
+        "module": "commonjs",
+        "outDir": "./dist",
+        "esModuleInterop": true
+    }
+}

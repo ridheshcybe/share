@@ -5,7 +5,7 @@ const { app } = expressWs(express())
 const port = process.env.PORT || 8080
 
 app.get('/', (req, res) => {
-    res.send("Hello")
+    res.render("index.ejs")
 });
 
 app.ws('/', function (ws, req) {

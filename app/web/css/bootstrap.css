@@ -515,13 +515,6 @@ select:disabled {
     display: none !important
 }
 
-[type=button],
-[type=reset],
-[type=submit],
-button {
-    -webkit-appearance: button
-}
-
 [type=button]:not(:disabled),
 [type=reset]:not(:disabled),
 [type=submit]:not(:disabled),
@@ -580,7 +573,6 @@ legend+* {
 
 [type=search] {
     outline-offset: -2px;
-    -webkit-appearance: textfield
 }
 
 ::-webkit-search-decoration {
@@ -598,7 +590,6 @@ legend+* {
 
 ::file-selector-button {
     font: inherit;
-    -webkit-appearance: button
 }
 
 output {
@@ -2725,7 +2716,6 @@ textarea.form-control-lg {
     -moz-appearance: none;
     appearance: none;
     -webkit-print-color-adjust: exact;
-    color-adjust: exact;
     print-color-adjust: exact
 }
 

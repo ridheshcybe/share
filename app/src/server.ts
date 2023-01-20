@@ -8,6 +8,7 @@ const port = process.env.PORT || 8080
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, '../web/views'));
 
+app.use('/js', express.static(path.resolve(__dirname, '../web/js')))
 app.use('/css', express.static(path.resolve(__dirname, '../web/css')))
 
 app.get('/', (req, res) => {

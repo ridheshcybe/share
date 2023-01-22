@@ -1,4 +1,5 @@
-import path from "path"
+import path from "path";
+import helmet from "helmet";
 import express from "express";
 import expressWs from "express-ws";
 
@@ -8,6 +9,7 @@ const port = process.env.PORT || 8080
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, '../web/views'));
 
+app.use(helmet())
 app.use('/js', express.static(path.resolve(__dirname, '../web/js')))
 app.use('/css', express.static(path.resolve(__dirname, '../web/css')))
 

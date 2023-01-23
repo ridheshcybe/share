@@ -1,15 +1,22 @@
 import path from "path";
-import helmet from "helmet";
+import Scetch from 'scetch';
 import express from "express";
 import expressWs from "express-ws";
+import { randomBytes } from "crypto";
 
-const { app } = expressWs(express())
-const port = process.env.PORT || 8080
+const scetch = Scetch();
+const combine = expressWs(express());
+const app = combine.app;
+const port = process.env.PORT || 8080;
 
-app.set('view engine', 'ejs');
+app.engine('sce', scetch.engine); // 'sce' registers the file extension, scetch.engine is the actual engine!
+app.set('view engine', 'sce');
 app.set('views', path.resolve(__dirname, '../web/views'));
 
-app.use(helmet())
+app.use((req, res, next) => {
+    app.locals.nonce = randomBytes(16).toString("base64url");
+    next()
+})
 app.use('/js', express.static(path.resolve(__dirname, '../web/js')))
 app.use('/css', express.static(path.resolve(__dirname, '../web/css')))
 
@@ -18,7 +25,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/signin', (req, res) => {
-    res.render("signin.ejs")
+    res.render("signin.ejs", {
+        nonce: app.locals.nonce
+    })
 })
 
 app.ws('/signin', (ws, req) => {

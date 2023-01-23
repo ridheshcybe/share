@@ -8,7 +8,7 @@
 
 <body>
     <header class="sticky-sm-top">
-        <%- include("../partials/navbar.ejs") %>
+        [[i= ../partials/navbar.sce ]]
     </header>
     <div class="px-4 py-5 my-5 text-center">
         <h1 class="display-5 fw-bold">Share</h1>
@@ -17,7 +17,7 @@
         </div>
     </div>
     <footer class="fixed-bottom">
-        <%- include("../partials/footer.ejs") %>
+        [[i= ../paritals/footer.sce ]]
     </footer>
 </body>
 

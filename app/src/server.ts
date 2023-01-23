@@ -17,6 +17,16 @@ app.get('/', (req, res) => {
     res.render("index.ejs")
 });
 
+app.get('/signin', (req, res) => {
+    res.render("signin.ejs")
+})
+
+app.ws('/signin', (ws, req) => {
+    ws.on('message', (msg) => {
+        ws.send('')
+    })
+})
+
 app.listen(port, () => {
     console.log(`Live at http://localhost:${port}`)
 });

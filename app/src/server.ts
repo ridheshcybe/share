@@ -21,11 +21,11 @@ app.use('/js', express.static(path.resolve(__dirname, '../web/js')))
 app.use('/css', express.static(path.resolve(__dirname, '../web/css')))
 
 app.get('/', (req, res) => {
-    res.render("index.ejs")
+    res.render("index.sce")
 });
 
 app.get('/signin', (req, res) => {
-    res.render("signin.ejs", {
+    res.render("signin.sce", {
         nonce: app.locals.nonce
     })
 })

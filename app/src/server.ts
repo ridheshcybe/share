@@ -1,41 +1,14 @@
-import path from "path";
-import Scetch from 'scetch';
-import express from "express";
-import expressWs from "express-ws";
-import { randomBytes } from "crypto";
+import Fastify from 'fastify';
 
-const scetch = Scetch();
-const combine = expressWs(express());
-const app = combine.app;
-const port = process.env.PORT || 8080;
-
-app.engine('sce', scetch.engine); // 'sce' registers the file extension, scetch.engine is the actual engine!
-app.set('view engine', 'sce');
-app.set('views', path.resolve(__dirname, '../web/views'));
-
-app.use((req, res, next) => {
-    app.locals.nonce = randomBytes(16).toString("base64url");
-    next()
-})
-app.use('/js', express.static(path.resolve(__dirname, '../web/js')))
-app.use('/css', express.static(path.resolve(__dirname, '../web/css')))
-
-app.get('/', (req, res) => {
-    res.render("index.sce")
-});
-
-app.get('/signin', (req, res) => {
-    res.render("signin.sce", {
-        nonce: app.locals.nonce
-    })
+const fastify = Fastify({
+    logger: process.env.enviroment !== "production"
 })
 
-app.ws('/signin', (ws, req) => {
-    ws.on('message', (msg) => {
-        ws.send('')
-    })
+fastify.get('/', (req, res) => {
+    res.send('Hi')
 })
 
-app.listen(port, () => {
-    console.log(`Live at http://localhost:${port}`)
-});
+fastify.listen({ port: 3000 }, (err, address) => {
+    if (err) return fastify.log.error(err), process.exit(1);
+    console.log(`Server is now listening on ${address}`);
+})

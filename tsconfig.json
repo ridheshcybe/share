@@ -1,0 +1,16 @@
+{
+  "include": [
+    "./app/src/*.ts",
+    "app/src/handlers/router.ts",
+    "app/src/handlers/router.ts",
+    "app/src/handlers/socket.ts",
+    "app/src/handlers/socket.ts"
+  ],
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "module": "commonJS",
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true
+  }
+}

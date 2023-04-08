@@ -22,10 +22,11 @@ function genname() {
 }
 function handler(io, server) {
     io.on("connection", (socket) => {
-        socket.send(JSON.stringify({
-            clientip: socket.handshake.address,
-            name: genname(),
-        }));
+        console.log("new connection");
+        socket.on("needname", () => {
+            socket.emit("newname", genname());
+        });
+        socket.emit("pair", "ridhesh");
     });
 }
 exports.handler = handler;

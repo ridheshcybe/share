@@ -22,19 +22,26 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const ejs_1 = __importDefault(require("ejs"));
 const path = __importStar(require("path"));
-const express_1 = require("express");
-const router = (0, express_1.Router)();
+const express_1 = __importStar(require("express"));
+const router = (0, express_1.default)();
 const frontend = path.resolve(__dirname, "../../frontend");
-router.use("/public", (0, express_1.static)(path.resolve(__dirname, "../../frontend/public")));
+router.set("view engine", "ejs");
+router.engine("ejs", ejs_1.default.__express);
+router.set("views", path.resolve(frontend, "./views"));
+router.use("/public", (0, express_1.static)(path.resolve(frontend, "./public")));
 router.get("/", (req, res) => {
-    res.sendFile(path.resolve(frontend, "./index.html"));
+    res.render("./index.ejs");
 });
 router.get("/receive", (req, res) => {
-    res.sendFile(path.resolve(frontend, "./receive.html"));
+    res.render("./receive.ejs");
 });
 router.get("/send", (req, res) => {
-    res.sendFile(path.resolve(frontend, "./send.html"));
+    res.render("./send.ejs");
 });
 exports.default = router;

@@ -20,12 +20,24 @@ function genname() {
 
 export function handler(io: socketS, server: httpS) {
   io.on("connection", (socket) => {
-    socket.send(
-      JSON.stringify({
-        clientip: socket.handshake.address,
-        name: genname(),
-      })
-    );
+    console.log("new connection");
+    socket.on("needname", () => {
+      socket.emit("newname", genname());
+    });
+    socket.emit("pair", "ridhesh");
+    socket.on("pair disconnect", (id) => {
+      console.log(`disconnect on ${id}`);
+    });
+    socket.on("pair connect", (id) => {
+      console.log(`connect on ${id}`);
+      socket.emit(
+        "transfer",
+        JSON.stringify({
+          type: "appliction/json",
+          buffer: Buffer.from(JSON.stringify({ name: "hello" })),
+        })
+      );
+    });
   });
 }
 export default handler;

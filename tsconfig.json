@@ -1,11 +1,5 @@
 {
-  "include": [
-    "./app/src/*.ts",
-    "app/src/handlers/router.ts",
-    "app/src/handlers/router.ts",
-    "app/src/handlers/socket.ts",
-    "app/src/handlers/socket.ts"
-  ],
+  "include": ["./app/src/*.ts", "app/src/**/*.ts"],
   "compilerOptions": {
     "lib": ["ESNext"],
     "target": "ESNext",

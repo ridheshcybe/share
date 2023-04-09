@@ -33,11 +33,16 @@ export function handler(io: socketS, server: httpS) {
       socket.emit(
         "transfer",
         JSON.stringify({
+          chunkNum: 0,
+          totalChunks: 0,
+          senderID: "BOT",
           type: "appliction/json",
           buffer: Buffer.from(JSON.stringify({ name: "hello" })),
         })
       );
     });
+    socket.on("end", (id) => console.log(`end on ${id}`));
+    socket.on("error", (err) => console.error(err));
   });
 }
 export default handler;

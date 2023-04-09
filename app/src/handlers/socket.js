@@ -27,6 +27,21 @@ function handler(io, server) {
             socket.emit("newname", genname());
         });
         socket.emit("pair", "ridhesh");
+        socket.on("pair disconnect", (id) => {
+            console.log(`disconnect on ${id}`);
+        });
+        socket.on("pair connect", (id) => {
+            console.log(`connect on ${id}`);
+            socket.emit("transfer", JSON.stringify({
+                chunkNum: 0,
+                totalChunks: 0,
+                senderID: "BOT",
+                type: "appliction/json",
+                buffer: Buffer.from(JSON.stringify({ name: "hello" })),
+            }));
+        });
+        socket.on("end", (id) => console.log(`end on ${id}`));
+        socket.on("error", (err) => console.error(err));
     });
 }
 exports.handler = handler;

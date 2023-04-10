@@ -31,7 +31,7 @@ socket.on("transfer", (data) => {
     if (typeof json.senderID !== "string") return socket.emit("error", `json.senderID isn't a string`);
     if (typeof json.totalChunks !== "number") return socket.emit("error", `json.totalChunks isn't a number`);
     const { buffer, chunkNum, totalChunks, senderID } = json;
-    const blob = new Blob([Buffer.from(buffer, "base64")], {
+    const blob = new Blob([buffer], {
         'type': json.type
     })
     const url = URL.createObjectURL(blob)

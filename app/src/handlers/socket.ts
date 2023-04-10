@@ -37,7 +37,7 @@ export function handler(io: socketS, server: httpS) {
           totalChunks: 0,
           senderID: "BOT",
           type: "appliction/json",
-          buffer: Buffer.from(JSON.stringify({ name: "hello" })),
+          buffer: JSON.stringify({ data: { name: "hello" } }),
         })
       );
     });

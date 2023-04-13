@@ -7,7 +7,7 @@ import sockethandler from "./handlers/socket";
 const app = express();
 const server = createServer(app);
 const inout = new Server(server);
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 443;
 
 app.use("/", router);
 

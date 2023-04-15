@@ -19,8 +19,6 @@ function genname() {
 }
 
 export function handler(io: socketS, server: httpS) {
-  io.on("connection", (socket) => {
-    socket.on("init", (device) => {});
-  });
+  io.on("connection", (socket) => {});
 }
 export default handler;

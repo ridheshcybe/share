@@ -11,7 +11,7 @@ const socket_1 = __importDefault(require("./handlers/socket"));
 const app = (0, express_1.default)();
 const server = (0, http_1.createServer)(app);
 const inout = new socket_io_1.Server(server);
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 443;
 app.use("/", router_1.default);
 (0, socket_1.default)(inout, server);
 server.listen(PORT, () => {

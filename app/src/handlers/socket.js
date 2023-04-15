@@ -21,28 +21,7 @@ function genname() {
     return newname();
 }
 function handler(io, server) {
-    io.on("connection", (socket) => {
-        console.log("new connection");
-        socket.on("needname", () => {
-            socket.emit("newname", genname());
-        });
-        socket.emit("pair", "ridhesh");
-        socket.on("pair disconnect", (id) => {
-            console.log(`disconnect on ${id}`);
-        });
-        socket.on("pair connect", (id) => {
-            console.log(`connect on ${id}`);
-            socket.emit("transfer", JSON.stringify({
-                chunkNum: 0,
-                totalChunks: 0,
-                senderID: "BOT",
-                type: "appliction/json",
-                buffer: Buffer.from(JSON.stringify({ name: "hello" })),
-            }));
-        });
-        socket.on("end", (id) => console.log(`end on ${id}`));
-        socket.on("error", (err) => console.error(err));
-    });
+    io.on("connection", (socket) => { });
 }
 exports.handler = handler;
 exports.default = handler;

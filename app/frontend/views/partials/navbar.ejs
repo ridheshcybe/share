@@ -27,7 +27,7 @@
 
 <script>
     const switcher = document.querySelector("#switcher")
-    switch (location.href) {
+    switch (location.pathname) {
         case "/":
             switcher.textContent = "Send";
             switcher.href = "/send"

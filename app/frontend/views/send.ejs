@@ -48,7 +48,6 @@
             multiUploadButton.onclick = () => multiUploadInput.click();
 
             multiUploadInput.addEventListener('change', (event) => {
-
                 if (multiUploadInput.files) {
                     let files = multiUploadInput.files;
 
@@ -56,21 +55,23 @@
                     multiUploadDeleteButton.classList.add("z-100", "p-2", "my-auto");
                     multiUploadDeleteButton.classList.remove("hidden");
 
-                    Object.keys(files).forEach((key) => {
-                        let file = files[key];
-
-                        let reader = new FileReader();
-                        reader.readAsDataURL(file);
-                        reader.onload = () => {
-                            const dataurl = reader.result;
-                            console.log(dataurl);
-                        }
-                        reader.onerror = (ev) => {
-                            alert(`Error reading: ${ev.message}`);
-                        }
-                    })
                 }
             })
+
+            function upload(files) {
+                Object.keys(files).forEach((key) => {
+                    let file = files[key];
+
+                    let reader = new FileReader();
+                    reader.readAsArrayBuffer(file);
+                    reader.onload = () => {
+                        const dataurl = reader.result;
+                    }
+                    reader.onerror = (ev) => {
+                        alert(`Error reading: ${ev.message}`);
+                    }
+                })
+            }
 
             function removeMultiUpload() {
                 multiUploadInput.value = '';

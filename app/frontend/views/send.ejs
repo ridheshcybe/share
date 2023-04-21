@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Send</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="/public/js/byteformatter.js"></script>
 </head>
 
 <body style="background-color: teal">
@@ -39,63 +38,9 @@
                 <input type="file" id="multi-upload-input" class="hidden" multiple />
             </div>
         </div>
-
-        <script>
-            let Loadedfiles = []
-            const multiUploadButton = document.getElementById("multi-upload-button");
-            const multiUploadInput = document.getElementById("multi-upload-input");
-            const multiUploadDisplayText = document.getElementById("multi-upload-text");
-            const multiUploadDeleteButton = document.getElementById("multi-upload-delete");
-
-            multiUploadButton.onclick = () => multiUploadInput.click();
-
-            multiUploadInput.addEventListener('change', (event) => {
-                if (multiUploadInput.files) {
-                    let files = multiUploadInput.files;
-
-                    multiUploadDisplayText.innerHTML = files.length + ' files selected';
-                    multiUploadDeleteButton.classList.add("z-100", "p-2", "my-auto");
-                    multiUploadDeleteButton.classList.remove("hidden");
-
-
-                    Object.keys(multiUploadInput.files).forEach(e => {
-                        let file = multiUploadInput.files[e];
-                        const bsize = byteSize(file.size, {}).toString()
-
-                        let submit = {
-                            lastModified: file.lastModified,
-                            name: file.name,
-                            size: bsize,
-                            type: file.type
-                        }
-                        let reader = new FileReader();
-                        reader.readAsArrayBuffer(file);
-                        reader.onload = () => {
-                            const arrayBuffer = reader.result;
-                            submit.ABuffer = arrayBuffer
-                            Loadedfiles.push(submit)
-                        }
-                        reader.onerror = (ev) => {
-                            alert(`Error reading: ${ev.message}`);
-                        }
-                    });
-                } else {
-                    Loadedfiles = [];
-                }
-            })
-
-
-
-            function removeMultiUpload() {
-                Loadedfiles = [];
-                multiUploadInput.value = '';
-                multiUploadDisplayText.innerHTML = '';
-                multiUploadDeleteButton.classList.add("hidden");
-                multiUploadDeleteButton.classList.remove("z-100", "p-2", "my-auto");
-            }
-        </script>
     </section>
-    <script src="/public/js/sender.js"></script>
+
+    <script src="/public/js/sender.js" type="module"></script>
 </body>
 
 </html>

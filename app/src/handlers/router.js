@@ -27,13 +27,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const ejs_1 = __importDefault(require("ejs"));
+const api_1 = __importDefault(require("./api"));
 const path = __importStar(require("path"));
 const express_1 = __importStar(require("express"));
 const router = (0, express_1.default)();
 const frontend = path.resolve(__dirname, "../../frontend");
 router.set("view engine", "ejs");
-router.engine("ejs", ejs_1.default.__express);
 router.set("views", path.resolve(frontend, "./views"));
+router.engine("ejs", ejs_1.default.__express);
+router.use("/api", api_1.default);
 router.use("/public", (0, express_1.static)(path.resolve(frontend, "./public")));
 router.get("/", (req, res) => {
     res.render("./index.ejs");

@@ -1,9 +1,15 @@
 import byteFromatter from './modules/byteformatter.js';
 import compressArrayBuffer from './modules/compress.js';
-import socketio from "https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.esm.min.js"
+
+const users = []
+const result = document.getElementById("result");
+
+fetch('/api/get-users').then(e => e.json()).then(e => {
+    if (e.length === 0) result.innerHTML = `<p class="text-center text-white mx-auto h-full">No users trying receiveing, Try again later</p>`;
+    console.log(e.length)
+})
 
 let Loadedfiles = []
-const socket = socketio.io();
 const multiUploadButton = document.getElementById("multi-upload-button");
 const multiUploadInput = document.getElementById("multi-upload-input");
 const multiUploadDisplayText = document.getElementById("multi-upload-text");
@@ -51,10 +57,6 @@ multiUploadInput.addEventListener('change', (event) => {
         Loadedfiles = [];
     }
 });
-
-document.getElementById("send").onclick = () => {
-
-}
 
 function removeMultiUpload() {
     Loadedfiles = [];

@@ -1,67 +1,81 @@
-import byteFromatter from './modules/byteformatter.js';
-import compressArrayBuffer from './modules/compress.js';
-
 const users = []
+let userselected;
 const result = document.getElementById("result");
 
-fetch('/api/get-users').then(e => e.json()).then(e => {
-    if (e.length === 0) result.innerHTML = `<p class="text-center text-white mx-auto h-full">No users trying receiveing, Try again later</p>`;
-    console.log(e.length)
-})
-
-let Loadedfiles = []
-const multiUploadButton = document.getElementById("multi-upload-button");
-const multiUploadInput = document.getElementById("multi-upload-input");
-const multiUploadDisplayText = document.getElementById("multi-upload-text");
-const multiUploadDeleteButton = document.getElementById("multi-upload-delete");
-
-multiUploadButton.onclick = () => multiUploadInput.click();
-
-multiUploadInput.addEventListener('change', (event) => {
-    if (multiUploadInput.files) {
-        let files = multiUploadInput.files;
-
-        multiUploadDisplayText.innerHTML = files.length + ' files selected';
-        multiUploadDeleteButton.classList.add("z-100", "p-2", "my-auto");
-        multiUploadDeleteButton.classList.remove("hidden");
-
-
-        Object.keys(multiUploadInput.files).forEach(e => {
-            let file = multiUploadInput.files[e];
-            //more than 1 TB
-            if (bsize > 1024 * 1024 * 1024 * 1024) return alert(`File size too large: ${file.name}`)
-
-            const bsize = byteFromatter(file.size)
-
-            let submit = {
-                lastModified: file.lastModified,
-                name: file.name,
-                size: bsize,
-                type: file.type
-            }
-
-            let reader = new FileReader();
-            reader.readAsArrayBuffer(file);
-            reader.onload = () => {
-                const arrayBuffer = reader.result;
-                compressArrayBuffer(arrayBuffer).then(e => {
-                    submit.buffer = e
-                    Loadedfiles.push(submit)
-                }).catch(err => console.error(`Error compressing ${e.message}`))
-            }
-            reader.onerror = (ev) => {
-                alert(`Error reading: ${ev.message}`);
-            }
-        });
-    } else {
-        Loadedfiles = [];
-    }
-});
-
-function removeMultiUpload() {
-    Loadedfiles = [];
-    multiUploadInput.value = '';
-    multiUploadDisplayText.innerHTML = '';
-    multiUploadDeleteButton.classList.add("hidden");
-    multiUploadDeleteButton.classList.remove("z-100", "p-2", "my-auto");
+function nousers() {
+    result.style.top = "50vh";
+    result.style.left = "40vw";
+    result.style.position = "absolute";
+    result.innerHTML = '<p class="text-center text-white mx-auto h-full">No users trying receiveing, Try again later</p>';
 }
+
+function run() {
+    result.innerHTML = `<style>
+.top-100 {top: 100%}
+.bottom-100 {bottom: 100%}
+.max-h-select {
+    max-height: 300px;
+}
+</style>
+
+
+<div class="flex-auto flex flex-col items-center h-64">
+<div class="flex flex-col items-center relative">
+    <div class="w-full  svelte-1l8159u">
+        <div class="my-2 bg-white p-1 flex border border-gray-200 rounded svelte-1l8159u">
+            <div class="flex flex-auto flex-wrap"></div>
+            <input value="Javascript" class="p-1 px-2 appearance-none outline-none w-full text-gray-800  svelte-1l8159u">
+            <div>
+                <button class="cursor-pointer w-6 h-full flex items-center text-gray-400 outline-none focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x w-4 h-4">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200 svelte-1l8159u">
+                <button class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-up w-4 h-4">
+                        <polyline points="18 15 12 9 6 15"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="absolute shadow top-100 z-40 w-full lef-0 rounded max-h-select overflow-y-auto svelte-5uyqqj">
+        <div class="flex flex-col w-full">
+            <div class="cursor-pointer w-full border-gray-100 rounded-t border-b 
+        hover:bg-teal-100" style="">
+                <div class="flex w-full items-center p-2 pl-2 border-transparent bg-white border-l-2 relative hover:bg-teal-600 hover:text-teal-100 hover:border-teal-600">
+                    <div class="w-full items-center flex">
+                        <div class="mx-2 leading-6  ">Python </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cursor-pointer w-full border-gray-100 border-b 
+        hover:bg-teal-100 " style="">
+                <div class="flex w-full items-center p-2 pl-2 border-transparent bg-white border-l-2 relative hover:bg-teal-600 hover:text-teal-100 border-teal-600">
+                    <div class="w-full items-center flex">
+                        <div class="mx-2 leading-6  ">Javascript </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cursor-pointer w-full border-gray-100 rounded-b 
+        hover:bg-teal-100 " style="">
+                <div class="flex w-full items-center p-2 pl-2 border-transparent bg-white border-l-2 relative  hover:bg-teal-600 hover:text-teal-100 hover:border-teal-600">
+                    <div class="w-full items-center flex">
+                        <div class="mx-2 leading-6  ">Ruby </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>`
+}
+
+fetch('/api/get-users').then(e => e.json()).then(e => {
+    if (e.length === 0) return nousers()
+    users.push(e);
+    run()
+})

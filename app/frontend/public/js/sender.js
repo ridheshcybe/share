@@ -26,6 +26,8 @@ function run() {
 
 fetch('/api/get-users').then(e => e.json()).then(e => {
     if (e.length === 0) return nousers()
-    users.push(e);
-    run()
+    e.forEach((f, i, a) => {
+        users.push(f);
+        if (i === a.length - 1) return run()
+    })
 })

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Share</title>
+  <link rel="stylesheet" href="/public/css/index.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/public/js/mobilemenu.js" defer></script>
+</head>
+
+<body style="background-color: teal; width:100vw;height:100vh;">
+  <header>
+    <nav class="flex items-center justify-between flex-wrap bg-teal-500 p-6">
+      <div class="flex items-center flex-shrink-0 text-white mr-6">
+        <img width="50" src="/public/share.svg" alt="logo" style="padding-right:5px;">
+        <span class=" font-semibold text-xl tracking-tight">Share</span>
+      </div>
+      <div class="block lg:hidden">
+        <button id="menubtn"
+          class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
+          <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>Menu</title>
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+          </svg>
+        </button>
+      </div>
+      <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto" id="menu">
+        <div class="text-sm lg:flex-grow">
+          <a href="/send" id="switcher" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+            Send
+          </a>
+          <a href="/receive" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
+            Receive
+          </a>
+        </div>
+      </div>
+    </nav>
+
+  </header>
+
+  <section style="display:grid;padding:10vw;padding-top:15vw;justify-content: center;">
+    <button onclick="location.href='/receive'"
+      class="bg-teal-500 hover:bg-teal text-white font-bold py-2 px-4 border border-teal-500 rounded">
+      <img style="float:left;" src="/public/download.svg" width="20"><span
+        style="float:right; padding-left: 1vw;">Receive</span>
+    </button>
+    <button onclick="location.href='/send'"
+      class="bg-teal-500 hover:bg-teal text-white font-bold py-2 px-4 border border-teal-500 rounded"
+      style="margin-top:1vh;">
+      <img style="float:left;" src="/public/upload.svg" width="20"><span
+        style="float:right; padding-left: 1vw;">Send</span>
+    </button>
+  </section>
+</body>
+
+</html>

@@ -1,29 +1,19 @@
-import ejs from "ejs";
-import api from "./api";
-import * as path from "path";
-import exp, { static as stat } from "express";
+import { resolve } from "path";
+import { Router } from "express";
 
-const router = exp();
-const frontend = path.resolve(__dirname, "../../frontend");
-
-router.set("view engine", "ejs");
-router.set("views", path.resolve(frontend, "./views"));
-
-router.engine("ejs", ejs.__express);
-
-router.use("/api", api);
-router.use("/public", stat(path.resolve(frontend, "./public")));
+const router = Router();
+const views = resolve(__dirname, "../../frontend/views");
 
 router.get("/", (req, res) => {
-  res.render("./index.ejs");
+  res.sendFile(resolve(views, "./index.html"));
 });
 
 router.get("/receive", (req, res) => {
-  res.render("./receive.ejs");
+  res.sendFile(resolve(views, "./receive.html"));
 });
 
 router.get("/send", (req, res) => {
-  res.render("./send.ejs");
+  res.sendFile(resolve(views, "./send.html"));
 });
 
 export default router;

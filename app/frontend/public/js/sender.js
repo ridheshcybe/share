@@ -10,18 +10,21 @@ function nousers() {
 }
 
 function run() {
-    fetch('/public/template/selectmenu.hbs').then(e => e.text()).then(e => {
-        result.innerHTML = Handlebars.compile(e)({
-            data: users.map(f => f.name)
-        });
-
-        const option = document.getElementsByTagName("option")
-        option.item(option.length - 1).remove()
-        const menu = document.getElementById("optionsmenu")
-        menu.onchange = () => {
-            userselected = menu.value;
-        }
+    let content = ''
+    users.map(f => f.name).forEach((e, i, a) => {
+        content += `<option value="${e}">${e}</option>`
+        if (i == a.length - 1) return result.innerHTML = `<style>.box{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}.box select{background-color:#0563af;color:#fff;padding:12px;width:250px;border:none;font-size:20px;box-shadow:0 5px 25px rgba(0,0,0,.2);-webkit-appearance:button;appearance:button;outline:0}.box:hover::before{color:rgba(255,255,255,.6);background-color:rgba(255,255,255,.2)}.box select option{padding:30px}</style>
+        <div class="box">
+            <select id="optionsmenu">
+                ${content}
+            </select>
+        </div>`
     })
+
+    const menu = document.getElementById("optionsmenu")
+    menu.onchange = () => {
+        userselected = menu.value;
+    }
 }
 
 fetch('/api/get-users').then(e => e.json()).then(e => {

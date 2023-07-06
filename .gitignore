@@ -1,5 +1,4 @@
 node_modules
 package-lock.json
 .env
-sandbox
-sandbox.js
+.DS_Store

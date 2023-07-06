@@ -1,10 +1,8 @@
 {
-  "include": ["./app/src/*.ts", "app/src/**/*.ts"],
+  "include": ["./*.ts", "./functions/*.ts"],
   "compilerOptions": {
     "lib": ["ESNext"],
-    "target": "ESNext",
-    "module": "commonJS",
-    "moduleResolution": "nodenext",
+    "resolveJsonModule": true,
     "esModuleInterop": true
   }
 }

@@ -1,62 +1,102 @@
-const Arrayobv = require('../classes/array');
+//@ts-check
+const array = require('../functions/array').array;
 
-it('test push with one value', () => {
-    const arr = new Arrayobv();
-    arr.push({ name: 'test' });
-    expect(arr.inner).toEqual([{ name: 'test' }]);
+// Tests that push method adds one element to inner array
+it('test_push_one_arg', () => {
+    const arr = new array();
+    arr.push('one');
+    expect(arr.inner).toEqual(['one']);
 });
 
-it('test push with multiple values', () => {
-    const arr = new Arrayobv();
-    arr.push({ name: 'test1' }, { name: 'test2' });
-    expect(arr.inner).toEqual([{ name: 'test1' }, { name: 'test2' }]);
+// Tests that push method adds multiple elements to inner array
+it('test_push_multiple_args', () => {
+    const arr = new array();
+    arr.push('one', 'two', 'three');
+    expect(arr.inner).toEqual(['one', 'two', 'three']);
 });
 
-it('test delete with one value', () => {
-    const arr = new Arrayobv();
-    arr.push({ name: 'test' });
-    arr.delete('test');
-    expect(arr.inner).toEqual([]);
+// Tests that remove method removes one element from inner array
+it('test_remove_one_element', () => {
+    const arr = new array();
+    arr.push({ ip: '192.168.0.1' }, { ip: '192.168.0.2' });
+    arr.remove('192.168.0.1');
+    expect(arr.inner).toEqual([{ ip: '192.168.0.2' }]);
 });
 
-it('test delete with multiple values', () => {
-    const arr = new Arrayobv();
-    arr.push({ name: 'test1' }, { name: 'test2' });
-    arr.delete('test1');
-    expect(arr.inner).toEqual([{ name: 'test2' }]);
-});
-
-it('test push with no value', () => {
-    const arr = new Arrayobv();
+// Tests that push method does not add elements to inner array when called with no arguments
+it('test_push_no_args', () => {
+    const arr = new array();
     arr.push();
     expect(arr.inner).toEqual([]);
 });
 
-it('test delete with non existent value', () => {
-    const arr = new Arrayobv();
-    arr.push({ name: 'test' });
-    arr.delete('non-existent');
-    expect(arr.inner).toEqual([{ name: 'test' }]);
+// Tests that remove method does not modify inner array when called on an empty array
+it('test_remove_empty_array', () => {
+    const arr = new array();
+    arr.remove('192.168.0.1');
+    expect(arr.inner).toEqual([]);
 });
 
-it('inner should return an array', () => {
-    const arr = new Arrayobv();
-    expect(arr.inner).toEqual([]);
-})
+// Tests that remove method does not modify inner array when called with a non-existing element
+it('test_remove_non_existing_element', () => {
+    const arr = new array();
+    arr.push({ ip: '192.168.0.1' }, { ip: '192.168.0.2' });
+    arr.remove('192.168.0.3');
+    expect(arr.inner).toEqual([{ ip: '192.168.0.1' }, { ip: '192.168.0.2' }]);
+});
 
-it('add should return an array', () => {
-    const arr = new Arrayobv();
-    arr.EE.on("ADD", (val) => {
-        expect(val).toEqual([{ name: 'hi' }])
-    });
-    arr.push({ name: 'hi' })
-})
+// Tests that the remove method removes multiple elements from the array
+it('test_remove_method_with_multiple_elements', () => {
+    const myArray = new array();
+    myArray.push({ ip: '192.168.0.1', name: 'server1' });
+    myArray.push({ ip: '192.168.0.2', name: 'server2' });
+    myArray.push({ ip: '192.168.0.3', name: 'server3' });
+    myArray.remove('192.168.0.1');
+    myArray.remove('192.168.0.2');
+    expect(myArray.inner).toEqual([{ ip: '192.168.0.3', name: 'server3' }]);
+});
 
-it('delete should return an array', () => {
-    const arr = new Arrayobv();
-    arr.EE.on("DELETE", (val) => {
-        expect(val).toEqual({ name: 'hi' })
-    });
-    arr.push({ name: 'hi' })
-    arr.delete({ name: 'hi' })
-})
+// Tests that the EventEmitter is initialized
+it('test_event_emitter_initialized', () => {
+    const myArray = new array();
+    expect(myArray.EE).toBeDefined();
+});
+
+// Tests that a callback function can be registered to the 'update' event
+it('test_register_callback', () => {
+    const arr = new array();
+    const callback = jest.fn();
+    arr.onUpdate(callback);
+    expect(callback).not.toHaveBeenCalled();
+});
+
+// Tests that the registered callback function receives the updated inner array as a parameter
+it('test_callback_receives_inner_array', () => {
+    const arr = new array();
+    const callback = jest.fn();
+    arr.onUpdate(callback);
+    arr.push(1, 2, 3);
+    expect(callback).toHaveBeenCalledWith([1, 2, 3]);
+});
+
+// Tests that the registered callback function is called when the 'update' event is emitted
+it('test_callback_called_on_update', () => {
+    const arr = new array();
+    const callback = jest.fn();
+    arr.onUpdate(callback);
+    arr.push(1, 2, 3);
+    expect(callback).toHaveBeenCalledTimes(1);
+});
+
+// Tests that multiple callback functions can be registered to the 'update' event
+it('test_multiple_callbacks', () => {
+    const arr = new array();
+    const callback1 = jest.fn();
+    const callback2 = jest.fn();
+    arr.onUpdate(callback1);
+    arr.onUpdate(callback2);
+    arr.push(1, 2, 3);
+    expect(callback1).toHaveBeenCalledTimes(1);
+    expect(callback2).toHaveBeenCalledTimes(1);
+});
+

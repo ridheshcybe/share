@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receive</title>
+</head>
+
+<body>
+    <status id="stat">
+        <%- JSON.stringify(files) %>
+    </status>
+
+    <script>
+        let files = [];
+        const status = document.getElementById("stat");
+        const socket = new WebSocket("ws://localhost:8080/poll");
+
+        const format = (files) => {
+            let str = '';
+            if (!(files.length > 0)) return str = status.innerHTML = "Waiting...";
+            for (let i = 0; i < files.length; i++) {
+                let { fileName, data } = files[i];
+                str += `<a download="${fileName}" href="${data}">Download - ${fileName}</button>`
+            }
+            status.innerHTML = str;
+        }
+
+        socket.onopen = () => {
+            console.log("[open] Connection established");
+        };
+
+        socket.onmessage = ({ data }) => format((files = JSON.parse(data)));
+
+        socket.onclose = (e) => {
+            if (!e.wasClean) return alert('[close] Connection died');
+            const error = `[close] Connection closed cleanly, code=${e.code} reason=${e.reason}`;
+            alert(error);
+            console.error(error);
+        };
+
+        socket.onerror = (error) => {
+            alert(`[error]`);
+            console.log(`[error] ${error}`);
+        };
+
+        format(JSON.parse(stat.innerHTML));
+
+        // if user closes window then free up the queue
+        document.onvisibilitychange = () => document.visibilityState == 'hidden' && fetch("/freeup/receiver/" + Random, { keepalive: true }).then(e => window.close())
+    </script>
+</body>
+
+</html>

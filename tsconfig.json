@@ -1,8 +1,0 @@
-{
-  "include": ["./*.ts", "./functions/*.ts"],
-  "compilerOptions": {
-    "lib": ["ESNext"],
-    "resolveJsonModule": true,
-    "esModuleInterop": true
-  }
-}

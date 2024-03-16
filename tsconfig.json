@@ -1,0 +1,8 @@
+{
+    "include": ["./index.ts"],
+    "compilerOptions": {
+        "lib": ["es6"],
+        "module": "CommonJS",
+        "esModuleInterop": true
+    }
+}

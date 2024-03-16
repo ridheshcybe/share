@@ -1,16 +1,13 @@
 {
-  "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
-    "**/.DS_Store": true,
-    "**/Thumbs.db": true,
-    "**/*.min.js": {
-      "when": "$(basename).js"
-    },
-    "**/*.js":{
-      "when": "$(basename).ts"
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/*.js":{
+            "when": "$(basename).ts"
+        },
     }
-  }
 }

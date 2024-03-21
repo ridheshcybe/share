@@ -25,6 +25,7 @@ var events_1 = require("events");
  * 3000 Wrong Protocol
  * 3001 Parsing error
  * 3002 Invalid ID
+ * 3003 send Protocol error (invalid properties (different properties))
  */
 var SocketManager = /** @class */ (function (_super) {
     __extends(SocketManager, _super);
@@ -34,29 +35,35 @@ var SocketManager = /** @class */ (function (_super) {
         _this.name = "".concat(random_name_1.default.first(), "-").concat(random_name_1.default.last()).toLowerCase();
         _this.socket = socket;
         socket.onerror = function (ev) {
-            console.log("Error Socket: ".concat(JSON.stringify(ev)));
+            console.log("Error Socket: ".concat((ev.message)));
         };
         socket.onclose = function (ev) {
-            console.log("Socket closed: ".concat(JSON.stringify(ev)));
+            console.log("Socket closed: ".concat(ev.reason, " | ").concat(ev.code, " | ").concat(ev.wasClean));
         };
         socket.onmessage = function (ev) {
-            if (ev.data !== 'ready')
+            if (ev.data !== 'ready') {
+                console.warn("ready not fired");
                 return socket.close(3000, "use protocol");
+            }
             self.send("name", self.name);
             self.emit("ready", self.name);
             socket.onmessage = function (ev) {
                 var dataIN = (ev.data).toString();
                 if (!dataIN.includes('(SocketSplit)')) {
+                    console.warn("CLOSED SOCKET SOCKETSPLIT NOT INCLUDED");
                     return socket.close(3000, "use protocol");
                 }
                 ;
                 var _a = dataIN.split('(SocketSplit)'), method = _a[0], data = _a[1];
-                if (!method || !data)
+                if (!method || !data) {
+                    console.warn("CLOSED SOCKET METHOD || DATA IS FALSY");
                     return socket.close(3000, 'use protocol');
+                }
                 try {
                     self.emit(method, (data));
                 }
                 catch (error) {
+                    console.warn("socket emit error");
                     socket.close(3000, 'use protocol ERROR: ' + error.message);
                 }
             };

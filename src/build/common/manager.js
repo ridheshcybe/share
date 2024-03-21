@@ -76,25 +76,33 @@ export class SocketManager extends EventEmitter {
         }
 
         socket.onclose = (ev) => {
-            console.log(`Socket closed: ${JSON.stringify(ev)}`)
+            console.log(`Socket closed: ${ev.reason} | ${ev.code} | ${ev.wasClean}`)
         }
 
         socket.onmessage = (ev) => {
             const dataIN = (ev.data)
             if (!dataIN.includes('(SocketSplit)')) {
+                console.warn("CLOSED SOCKET SOCKETSPLIT NOT INCLUDED")
                 return socket.close(3000, "use protocol")
             };
             const [method, data] = dataIN.split('(SocketSplit)');
-            if (!method || !data) return socket.close(3000, 'use protocol');
+            if (!method || !data) {
+                console.warn("CLOSED SOCKET METHOD || DATA IS FALSY")
+                return socket.close(3000, 'use protocol');
+            }
 
             try {
-                self.emit(method, (data));
+                self.emit(method, data);
             } catch (error) {
+                console.warn("CLOSED SOCKET SOCKETSPLIT NOT INCLUDED")
                 socket.close(3000, 'use protocol ERROR: ' + error.message);
             }
         }
 
-        self.once("name", (name) => { self.name = name; self.emit("ready", name) });
+        self.once("name", (name) => {
+            self.name = name;
+            self.emit("ready", name)
+        });
     }
     send(method, data) {
         this.socket.send(`${method}(SocketSplit)${(data)}`);

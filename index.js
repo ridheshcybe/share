@@ -17,7 +17,7 @@ app.ws('/receive', function (ws, req) {
     var Manager = new socket_1.default(ws);
     Manager.on("ready", function (name) {
         DOWNUsers[name] = Manager;
-        console.log(name);
+        console.log("NEW USER DOWN => ".concat(name));
     });
 });
 function datafunnel(data, ws, requestID, receiver) {
@@ -84,4 +84,13 @@ app.ws('/send', function (ws, req) {
         });
     });
 });
-app.listen(8080);
+app.use(function (req, res, next) {
+    console.info("User: ".concat(req.ip, " is requesting nonexistent stream"));
+    res.status(404).send("Not Found");
+});
+// ERROR
+app.use(function (err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+app.listen(process.env.PORT || 8080);

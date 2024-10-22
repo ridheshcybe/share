@@ -33,7 +33,7 @@ app.ws('/receive', (ws, req) => {
     const Manager = new SocketManager(ws);
     Manager.on("ready", (name) => {
         DOWNUsers[name] = Manager;
-        console.log(name)
+        console.log(`NEW USER DOWN => ${name}`);
     })
 });
 
@@ -104,4 +104,15 @@ app.ws('/send', (ws, req) => {
     });
 });
 
-app.listen(8080)
+app.use((req, res, next) => {
+    console.info(`User: ${req.ip} is requesting nonexistent stream`);
+    res.status(404).send("Not Found");
+})
+
+// ERROR
+app.use((err, req, res, next) => {
+    console.error(err.stack)
+    res.status(500).send('Something broke!')
+})
+
+app.listen(process.env.PORT || 8080)

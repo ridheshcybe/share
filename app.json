@@ -1,5 +1,10 @@
 {
   "expo": {
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "name": "nearbyfiles",
     "slug": "nearbyfiles",
     "version": "1.0.0",
@@ -25,15 +30,11 @@
     },
     "plugins": [
       "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ]
+      ["expo-nearby-connections",
+      {
+        "bonjourServiceName": "NearbyFiles",
+        "localNetworkUsagePermissionText":"$(PRODUCT_NAME) need access to your network for file transfer and device discovery."
+      }]
     ],
     "experiments": {
       "typedRoutes": true
